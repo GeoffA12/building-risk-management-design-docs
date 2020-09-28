@@ -1,0 +1,18 @@
+@startuml Site Admin Read Sites 
+title Site Admin Read Sites
+skinparam SequenceMessageAlignment center
+actor SiteAdmin as SA
+participant SiteListScreen as SLS 
+participant SiteAdminUser as SAU #91deed
+database MongoSiteCollection as MSC #9aedb2
+
+SA -> SLS : Click on Sites List Menu Option
+SLS -> SAU : Get all sites admin is registered at [userId]
+SAU -> SAU : Validate Request 
+SAU -> MSC : Get All Sites [List<RegisteredSiteIds>]
+SAU <- MSC : List<Site>
+SLS <- SAU : User registered sites [List<Site>]
+SLS -> SLS : Load sites into List component
+SA <- SLS : Site List Rendered on Screen
+
+@enduml

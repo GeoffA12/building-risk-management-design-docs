@@ -1,0 +1,29 @@
+@startuml Site Admin Create Site
+title Site Admin Create Site
+skinparam SequenceMessageAlignment center
+actor SiteAdmin as SA
+participant SiteListScreen as SLS
+participant SiteEditorScreen as SES 
+participant Site #91deed
+participant SiteAdminUser as SAU #91deed
+database MongoSiteCollection as MSC #9aedb2
+
+SA -> SLS : Click on Sites List Menu Option
+SLS -> SES : Click on Create New Site Button
+SA <- SES : Site Editor Screen Renders
+SA -> SES : Fill out Site Form, Click Submit
+SES -> Site : Create Site Request [siteName, siteCode, address]
+Site -> Site : Validate Input
+Site -> MSC : Save New Site
+Site <- MSC : Confirmation
+Site -> SAU : Attach Site Id to Site Admin User [siteId]
+SAU -> SAU : Add Site Id to Associated Sites List
+SAU -> MSC : Save Site Admin User 
+SAU <- MSC : Confirmation
+Site <- SAU : Confirmation
+SES <- Site : New Site [Site]
+SES -> SES : Update React State with New Site
+SA <- SES : Confirmation Message, New Site Details Render
+
+
+@enduml
